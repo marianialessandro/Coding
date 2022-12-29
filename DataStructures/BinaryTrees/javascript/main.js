@@ -748,15 +748,11 @@ function createBinaryTree(inOrderTraversal, preOrderTraversal){
 
     if (inOrderTraversal.length == 0 && preOrderTraversal.length == 0)
         return null;
-    
-    console.log("inorder: ", inOrderTraversal.length, " --- pre: ", preOrderTraversal.length);
 
     if (inOrderTraversal.length == 1){
-        console.log("LEN: 1");
         return new Node(inOrderTraversal[0], null, null);
     }
     else if (inOrderTraversal.length != preOrderTraversal.length){
-        console.log("ERROR");
         return; // Ritorno undefined in segno di errore
     }
 
