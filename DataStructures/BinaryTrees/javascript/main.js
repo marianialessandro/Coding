@@ -731,7 +731,98 @@ function searchInArray(array, val){
     return index;
 }
 
+function createBinaryTree(inOrderTraversal, preOrderTraversal){
+    /*
+        INORDER:    D B E A F C
+        PREORDE:    A B D E C F
+        
+        1. Cerco la root
+        2. Cerco i figli della root incrociando inOrder e preOrder
+            Il figlio a sx lo trovo nella preOrder all'indice root+1
+            Il primo figlio a dx lo trovo subito a dx dell'ultimo nodo del sottoalbero sinistro
+                1. Trovo la root nella inorder = inOrderRoot
+                2. Prendo il valore dell'ultimo nodo a sx ed è in indice inOrderRoot-1
+                3. Il valore del figlio destro si trova nella preOrder subito a dx dell'ultimo nodo del sottoAlbero sinistro
+        3. A questo punto posso richiamare sui due array dei relativi sotto alberi
+    */
 
+    if (inOrderTraversal.length == 0 && preOrderTraversal.length == 0)
+        return null;
+    
+    console.log("inorder: ", inOrderTraversal.length, " --- pre: ", preOrderTraversal.length);
+
+    if (inOrderTraversal.length == 1){
+        console.log("LEN: 1");
+        return new Node(inOrderTraversal[0], null, null);
+    }
+    else if (inOrderTraversal.length != preOrderTraversal.length){
+        console.log("ERROR");
+        return; // Ritorno undefined in segno di errore
+    }
+
+    // console.log("INORDER: ", inOrderTraversal);
+    // console.log("PREORDER: ", preOrderTraversal);
+
+    // 1. Cerco l'indice della root nella inorderVisit
+        // Il valore della root nella preOrder è facilmente accessibile sapendo che è in prima posizione        
+    const inOrderRootIndex = searchInArray(inOrderTraversal, preOrderTraversal[0]);
+    var inOrderLastLeftSubtreeNodeIndex = -1;
+    switch(inOrderRootIndex){
+        case 0:
+            // se valesse 0 o è l'unico nodo dell'array oppure non a nodi a sx -> da valutare questa cosa
+            break;
+        case -1:
+            console.log("ROOT NON PRESENTE NELLA INORDER VISIT")
+            return undefined;   // Ritorno undefined in segno di errore
+            break;
+        default:    // Ho a sinistra l'ultimo nodo del left subtree
+            inOrderLastLeftSubtreeNodeIndex = inOrderRootIndex-1;
+            break;
+    }
+
+    // Cerco l'ultimo nodo del sottoalbero sinistro nella preorder visit
+    var preOrderLastLeftNodeIndex = searchInArray(preOrderTraversal, inOrderTraversal[inOrderLastLeftSubtreeNodeIndex]);
+    
+    // A questo punto è possibile comporre le array 
+    
+    // leftInorder: 0, root-1
+    var leftInorder = inOrderTraversal.slice(0, inOrderRootIndex);
+    // leftPreOrder: 1, preOrderLastLeftNodeIndex+1
+    var leftPreOrder = preOrderTraversal.slice(1, preOrderLastLeftNodeIndex+1);
+
+    // TODO: Root primo nodo -> cosa da controllare
+
+    // rightInorder= root+1, len
+
+    /*
+    var rightInorder = null;
+    if (inOrderRootIndex + 1 != inOrderTraversal.length)    // Se la root è l'ultimo nodo non ho un sottoalbero destro
+        rightInorder = inOrderTraversal.slice(inOrderRootIndex + 1, inOrderTraversal.length)
+
+    // rightPreOrder = preOrderLastLeftNodeIndex+1, len
+    var rightPreOrder = null;
+    
+    if (rightInorder != null)   // Se != null ho un sottoalbero destro, altrimenti non ci sarebbe un sottoalbero destro
+        rightPreOrder = preOrderTraversal.slice(preOrderLastLeftNodeIndex+1, preOrderTraversal.length);
+    */
+    var rightInorder = inOrderTraversal.slice(inOrderRootIndex + 1, inOrderTraversal.length);
+    var rightPreOrder = preOrderTraversal.slice(preOrderLastLeftNodeIndex+1, preOrderTraversal.length);
+
+    return new Node(
+        preOrderTraversal[0], 
+        createBinaryTree(leftInorder, leftPreOrder), 
+        createBinaryTree(rightInorder, rightPreOrder)
+    );
+}
+
+// Creare un array a partire da un albero
+// Creare un array ordinato a partire da un albero
+// Creare un albero a partire da un array
+
+// --------------------------------------------------
+// TEST
+
+/*
 var tree = new Node(1, 
     new Node(2,
         new Node(4, null, null),
@@ -798,5 +889,71 @@ console.log("SIZE: ", size(tree));
 console.log("SIZE ITERATIVE: ", sizeIterative(tree));
 
 console.log("NUMERO DI FOGLIE: ", countLeaves(tree));
+*/
+
+var inOrderTraversalList = [4, 10, 12, 15, 18, 22, 24, 25, 31, 35, 44, 50, 66, 70, 90];
+var preOrderTraversalList = [25, 15, 10, 4, 12, 22, 18, 24, 50, 35, 31, 44, 70, 66, 90];
+
+var generatedTree = createBinaryTree(inOrderTraversalList, preOrderTraversalList);
+console.log("PRE ORDER: ", preOrderTraversal(generatedTree));
+console.log("IN ORDER: ", inOrderTraversal(generatedTree));
+console.log("LEVEL ORDER: ", levelOrderTraversal(generatedTree));
+
+/*
+    PRE ORDER:  (15) [25, 15, 10, 4, 12, 22, 18, 24, 50, 35, 31, 44, 70, 66, 90]
+    IN ORDER:  (15) [4, 10, 12, 15, 18, 22, 24, 25, 31, 35, 44, 50, 66, 70, 90]
+    LEVEL ORDER:  (15) [25, 15, 50, 10, 22, 35, 70, 4, 12, 18, 24, 31, 44, 66, 90]
+*/
+
+console.log("PARTE 2");
+
+inOrderTraversalList = [3,2,4,1,6,5];
+preOrderTraversalList = [1,2,3,4,5,6];
+
+generatedTree = createBinaryTree(inOrderTraversalList, preOrderTraversalList);
+console.log("PRE ORDER VISIT: ", preOrderTraversal(generatedTree));
+console.log("IN ORDER VISIT: ", inOrderTraversal(generatedTree));
+console.log("LEVEL ORDER VISIT: ", levelOrderTraversal(generatedTree));
+
+console.log("ALBERO PER COMPOSIZIONE VISITE")
+var treeProva = new Node(
+    1,
+    new Node(
+        2, 
+        null, 
+        new Node(
+            4, 
+            null, 
+            null
+            )
+        ),
+    new Node(
+        5,
+        new Node(
+            6,
+            null,
+            null
+        ),
+        new Node(
+            7,
+            null,
+            null
+        )
+    )
+);
+
+console.log("PRE ORDER VISIT: ", preOrderTraversal(treeProva));
+console.log("IN ORDER VISIT: ", inOrderTraversal(treeProva));
+console.log("LEVEL ORDER VISIT: ", levelOrderTraversal(treeProva));
+
+console.log("PARTE 3");
+
+inOrderTraversalList = [2,4,1,6,5,7];
+preOrderTraversalList = [1,2,4,5,6,7];
+
+generatedTree = createBinaryTree(inOrderTraversalList, preOrderTraversalList);
+console.log("PRE ORDER VISIT: ", preOrderTraversal(generatedTree));
+console.log("IN ORDER VISIT: ", inOrderTraversal(generatedTree));
+console.log("LEVEL ORDER VISIT: ", levelOrderTraversal(generatedTree));
 
 // fino a pagina 146
