@@ -790,8 +790,6 @@ function createBinaryTree(inOrderTraversal, preOrderTraversal){
     // leftPreOrder: 1, preOrderLastLeftNodeIndex+1
     var leftPreOrder = preOrderTraversal.slice(1, preOrderLastLeftNodeIndex+1);
 
-    // TODO: Root primo nodo -> cosa da controllare
-
     // rightInorder= root+1, len
 
     /*
