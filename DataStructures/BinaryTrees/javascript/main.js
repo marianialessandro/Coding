@@ -760,9 +760,6 @@ function createBinaryTree(inOrderTraversal, preOrderTraversal){
         return; // Ritorno undefined in segno di errore
     }
 
-    // console.log("INORDER: ", inOrderTraversal);
-    // console.log("PREORDER: ", preOrderTraversal);
-
     // 1. Cerco l'indice della root nella inorderVisit
         // Il valore della root nella preOrder è facilmente accessibile sapendo che è in prima posizione        
     const inOrderRootIndex = searchInArray(inOrderTraversal, preOrderTraversal[0]);
@@ -792,17 +789,6 @@ function createBinaryTree(inOrderTraversal, preOrderTraversal){
 
     // rightInorder= root+1, len
 
-    /*
-    var rightInorder = null;
-    if (inOrderRootIndex + 1 != inOrderTraversal.length)    // Se la root è l'ultimo nodo non ho un sottoalbero destro
-        rightInorder = inOrderTraversal.slice(inOrderRootIndex + 1, inOrderTraversal.length)
-
-    // rightPreOrder = preOrderLastLeftNodeIndex+1, len
-    var rightPreOrder = null;
-    
-    if (rightInorder != null)   // Se != null ho un sottoalbero destro, altrimenti non ci sarebbe un sottoalbero destro
-        rightPreOrder = preOrderTraversal.slice(preOrderLastLeftNodeIndex+1, preOrderTraversal.length);
-    */
     var rightInorder = inOrderTraversal.slice(inOrderRootIndex + 1, inOrderTraversal.length);
     var rightPreOrder = preOrderTraversal.slice(preOrderLastLeftNodeIndex+1, preOrderTraversal.length);
 
