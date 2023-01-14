@@ -12,6 +12,9 @@ var rotate = function(nums, k) {
      * @param {int} right: estremo destro dell'array da ruotare (non compreso)
      */
     var reverse = (nums, left, right) => {
+
+        console.log(left, " ", right);
+
         if (left < 0 || right < 0)
             return;
 
@@ -26,3 +29,9 @@ var rotate = function(nums, k) {
     reverse(nums, nums.length-(k%nums.length), nums.length);
     reverse(nums, 0, nums.length);
 };
+
+nums = [1,2,3,4,5,6,7], k = 3
+
+rotate(nums, k);
+
+console.log(nums);
