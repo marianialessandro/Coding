@@ -17,7 +17,6 @@ void reverse(vector<int> &v, int left, int right){
         return;
     for (int first = left, last = right-1; first<last; first++, last--)
        iter_swap(v.begin() + first, v.begin() + last);
-    
 }
 
 void rotateVector(vector<int> & nums, int k){
