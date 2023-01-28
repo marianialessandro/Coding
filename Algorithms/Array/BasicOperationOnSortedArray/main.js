@@ -54,6 +54,21 @@ function findInsertPosition(nums, target){
  * @returns 
  */
 function insert(nums, target){
+    var findInsertPosition = (nums, target) => {
+        var left = 0, right = nums.length;
+    
+        while (left < right) {
+            var mid = Math.floor((left+right)/2);
+    
+            if (nums[mid] < target) 
+                left = mid + 1;
+            else 
+                right = mid;
+        }
+    
+        return left;
+    };
+
     var pos = findInsertPosition(nums, target);
 
     if (pos == 0)
