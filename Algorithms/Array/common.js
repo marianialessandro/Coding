@@ -3,8 +3,8 @@
  * @param {number} k
  * @return {void} Do not return anything, modify nums in-place instead.
  */
-var rotate = function(nums, k) {
-    if (nums.length == 1)
+Array.prototype.rotate = function(k){
+    if (this.length == 1)
         return;
 
     /**
@@ -12,9 +12,6 @@ var rotate = function(nums, k) {
      * @param {int} right: estremo destro dell'array da ruotare (non compreso)
      */
     var reverse = (nums, left, right) => {
-
-        console.log(left, " ", right);
-
         if (left < 0 || right < 0)
             return;
 
@@ -25,13 +22,12 @@ var rotate = function(nums, k) {
         }
     }
 
-    reverse(nums, 0, nums.length-(k%nums.length));
-    reverse(nums, nums.length-(k%nums.length), nums.length);
-    reverse(nums, 0, nums.length);
-};
+    reverse(this, 0, this.length-(k%this.length));
+    reverse(this, this.length-(k%this.length), this.length);
+    reverse(this, 0, this.length);
+}
 
-nums = [1,2,3,4,5,6,7], k = 3
+var arr = [1,2,3,4,5,6,7];
+arr.rotate(3);
 
-rotate(nums, k);
-
-console.log(nums);
+console.log(arr);
