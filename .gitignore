@@ -18,3 +18,7 @@ Algorithms/Array/RotateArray/main.dSYM/Contents/Info.plist
 .gitignore
 Algorithms/Array/RotateArray/main.dSYM/Contents/Resources/DWARF/main
 Algorithms/Trees/BinaryTrees/mainTrial.js
+Algorithms/Array/BinarySearch/c++/iterative
+*.plist
+Algorithms/Array/BinarySearch/c++/iterative.dSYM/Contents/Resources/DWARF/iterative
+Algorithms/Array/BinarySearch/c/iterative.dSYM/Contents/Resources/DWARF/iterative
