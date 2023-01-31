@@ -13,7 +13,7 @@ using namespace std;
 int search(vector<int>& nums, int target) {
     int left = 0, right = nums.size()-1;
 
-    while (right-left > 1){
+    while (left <= right){
         int x = floor((left+right)/2);
 
         if (nums[x] == target)
@@ -25,15 +25,27 @@ int search(vector<int>& nums, int target) {
             left = x;
     }
 
-    if (nums[left] == target)
-        return left;
-    else if (nums[right] == target)
-        return right;
-
     return -1;
+}
+
+void printVector(vector<int> & nums){
+    for (int i = 0; i < nums.size(); i++){
+        cout << nums[i] << " ";
+    }     
+
+    cout << endl;
 }
 
 int main(){
     
+    vector<int> v;
+
+    for (int i = 0; i < 10; i++)
+        v.push_back(i);
+
+    printVector(v);
+
+    cout << search(v, 1);
+
     return 0;
 }
