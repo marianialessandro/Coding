@@ -1,9 +1,51 @@
 /**
+ * Ritorna la posizione in cui inserire il numero mantenendo l'ordinamento
+ * Essendo che si tratta di un set ordinato, la ricerca della posizione in cui inserire l'elemento avverrà mediante un alterazione della binary search
+ * 
+ * @param {int} target 
+ * @param {int[]} nums 
+ * @returns {int} Posizione in cui inserire l'elemento
+ */
+Array.prototype.findInsertPosition = function(target, nums = this){
+    var left = 0, right = nums.length;
+
+    while (left < right) {
+        var mid = Math.floor((left+right)/2);
+
+        if (nums[mid] < target) 
+            left = mid + 1;
+        else 
+            right = mid;
+    }
+
+    return left;
+};
+
+/**
+ * Inserisce un valore nell'array
+ * 
+ * @param {*} target Valore da inserire
+ */
+Array.prototype.insert = function (target) {
+    // Sostituisce 0 elementi, all'indice pos con l'elemento target
+    this.splice(this.findInsertPosition(target), 0, target);
+};
+
+/**
+ * Verifica se un array è piena o vuota
+ * 
+ * @returns {boolean} True se è vuoto, false se contiene elementi
+ */
+Array.prototype.isEmpty = function(){
+    return this.length == 0;
+};
+
+/**
  * Implementazione di una classe Node che rappresenta un nodo di un Binary Tree
  * 
  * @author @marianialessandro
  */
-class Node{
+export class Node{
     /**
      * 
      * @param {number} val Valore non specificato da inserire nell'albero
@@ -22,7 +64,7 @@ class Node{
  * 
  * @author @marianialessandro
  */
-class BinaryTree{
+export default class BinaryTree{
     /**
      * @param {Node} root Root dell'albero
      */
@@ -129,7 +171,7 @@ class BinaryTree{
             return;
         }
 
-        while (queque.length > 0){
+        while (!queque.isEmpty()){
             tmp = queque.shift();
 
             if (tmp.left == null){
@@ -162,7 +204,7 @@ class BinaryTree{
         if (node != null)
             stack.push(node);
 
-        while (stack.length > 0){
+        while (!stack.isEmpty()){
             var tmp = stack.pop();
 
             if (tmp.val == target)
@@ -189,6 +231,37 @@ class BinaryTree{
     }
 
     // --- TRAVERSAL
+
+    /**
+     * Ritorna un array con i nodi ordinati in ordine crescente
+     * 
+     * @param {Node} node Root dell'albero (di default impostata a this.root)
+     * @returns {Array} Array che contiene i nodi già pronti
+     */
+    getOrderedArray(node = this.root, result = []){
+
+        // Procedo con un iterativo per maggior controllo
+
+        var stack = [];
+    
+        if (node != null)
+            stack.push(node);
+        
+        while(!stack.isEmpty()){    // Itero finchè ci sono elementi
+
+            var tmp = stack.pop();
+
+            result.insert(tmp.val);
+
+            if (tmp.right != null)
+                stack.push(tmp.right);
+            
+            if (tmp.left != null)
+                stack.push(tmp.left);
+        }
+
+        return result;
+    }
 
     /**
      * Visita di tipo DLR: si stampa il valore del nodo, si processa il sottoalbero sinistro e successivamente il sottoalbero destro
@@ -222,7 +295,7 @@ class BinaryTree{
         if (node != null)
             stack.push(node);
 
-        while (stack.length > 0){
+        while (!stack.isEmpty()){
             var tmp = stack.pop();
 
             results.push(tmp.val);
@@ -270,9 +343,10 @@ class BinaryTree{
             while (node != null){
                 stack.push(node);
                 node = node.left;
+
             }
 
-            if (stack.length == 0)
+            if (stack.isEmpty())
                 break;
             
             node = stack.pop();
@@ -372,7 +446,7 @@ class BinaryTree{
         
         queque.push(root);
 
-        while(queque.length > 0){
+        while(!queque.isEmpty()){
             tmp = queque.shift();
             results.push(tmp.val);
 
@@ -475,7 +549,7 @@ class BinaryTree{
         if (node != null)
             stack.push(node);
 
-        while (stack.length > 0){
+        while (!stack.isEmpty()){
             var tmp = stack.pop();
 
             // Dovendo visitare prima la sinistra la inserisco dopo. Questo per l'architettura dello stack
@@ -522,7 +596,7 @@ class BinaryTree{
         if (node != null)
             stack.push(node);
 
-        while (stack.length > 0){
+        while (!stack.isEmpty()){
             var tmp = stack.pop();
 
             // Dovendo visitare prima la sinistra la inserisco dopo. Questo per l'architettura dello stack
@@ -552,7 +626,7 @@ class BinaryTree{
         if (node != null)
             stack.push(node);
 
-        while (stack.length > 0){
+        while (!stack.isEmpty()){
             var tmp = stack.pop();
 
             // Dovendo visitare prima la sinistra la inserisco dopo. Questo per l'architettura dello stack
@@ -617,7 +691,7 @@ class BinaryTree{
         queque.push(node);
         queque.push(null);  // Va inserito un carattere terminatore che indica la fine del livello
 
-        while (queque.length > 0){
+        while (!queque.isEmpty()){
             tmp = queque.shift();
 
             if (tmp == null){
@@ -626,7 +700,7 @@ class BinaryTree{
                 currentSum = 0;
 
                 // Inserisco il terminatore di livello
-                if (queque.length > 0)
+                if (!queque.isEmpty())
                     queque.push(null);
             }
             else{
@@ -688,7 +762,7 @@ class BinaryTree{
         if (node != null)
             stack.push(node);
 
-        while (stack.length > 0){
+        while (!stack.isEmpty()){
             var tmp = stack.pop();
 
             results += tmp.val;
