@@ -1,3 +1,9 @@
+/**
+ * Array di oggetti che va a rappresentare un albero binario completo dove per ogni nodo corrisponde un elemento dell’array
+ * L’albero è completo in tutti i livelli ad eccezione dell’ultimo che è completo solo in una porzione sinistra.
+ * 
+ * @author @marianialessandro
+ */
 class MaxHeap{
     constructor(arr){
         this.arr = arr;

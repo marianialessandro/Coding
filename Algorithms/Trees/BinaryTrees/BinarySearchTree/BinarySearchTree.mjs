@@ -4,6 +4,10 @@ class BinarySearchTree extends BinaryTree{
     add(){
 
     }
+
+    remove(){
+        
+    }
 }
 
 var tree = new BinarySearchTree(
