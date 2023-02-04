@@ -26,8 +26,6 @@ public:
 
         string substring = s2.substr(s2Left, s1.length());
         sort(substring.begin(), substring.end());
-        // cout << s1 << endl;
-        // cout << substring << endl;
 
         if (s1 == substring)
             return true;
